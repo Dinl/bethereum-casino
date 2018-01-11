@@ -1,28 +1,44 @@
-.App {
-  text-align: center;
+body{
+    font-family: 'open sans';
+    margin: 0;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+ul{
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+li{
+    padding: 40px;
+    border: 2px solid rgb(30,134,255);
+    margin-right: 5px;
+    border-radius: 10px;
+    cursor: pointer;
 }
-
-.App-title {
-  font-size: 1.5em;
+li:hover{
+    background-color: rgb(30,134,255);
+    color: white;
 }
-
-.App-intro {
-  font-size: large;
+li:active{
+    opacity: 0.7;
 }
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+*{
+   color: #444444;
+}
+.main-container{
+   padding: 20px;
+}
+.block{
+   display: flex;
+   align-items: center;
+}
+.number-selected{
+   background-color: rgb(30,134,255);
+   color: white;
+}
+.bet-input{
+   padding: 15px;
+   border-radius: 10px;
+   border: 1px solid lightgrey;
+   font-size: 15pt;
+   margin: 0 10px;
 }
