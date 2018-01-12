@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import Web3 from 'web3'
 import './App.css';
+import HeaderBar from './components/HeadBar'
 
 /* eslint-disable no-undef */
 
@@ -156,7 +157,7 @@ class App extends Component {
   
 	updateState(){
 		if(this.state.ContractInstance == null) return;
-		
+
 		this.state.ContractInstance.minimumBet((err, result) => {
 			if(result != null){
 				this.setState({
@@ -226,6 +227,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="main-container">
+				<HeaderBar />
 				<h1>Bet for your best number and win huge amounts of Ether</h1>
 
 				<div className="block">
