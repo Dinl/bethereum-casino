@@ -3,24 +3,28 @@ import logo from './logo.svg';
 import Web3 from 'web3'
 import './App.css';
 
+/* eslint-disable no-undef */
+
 class App extends Component {
 
-	constructor(props){
-		super(props)
-		this.state = {
-			lastWinner: 0,
-			numberOfBets: 0,
-			minimumBet: 0,
-			totalBet: 0,
-			maxAmountOfBets: 0,
-		}
-		if(typeof this.web3 != 'undefined') {
+	state = {
+		lastWinner: 0,
+		numberOfBets: 0,
+		minimumBet: 0,
+		totalBet: 0,
+		maxAmountOfBets: 0,
+		ContractInstance: null,
+	}
+
+	setup(){
+		
+		if(typeof web3 != 'undefined') {
 			console.log("Using web3 detected from external source like Metamask")
-			this.web3 = new Web3(this.web3.currentProvider)
+			web3 = new Web3(web3.currentProvider)
 		} else {
-			this.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"))
+			web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"))
 		}
-		const MyContract = this.web3.eth.contract([
+		const MyContract = web3.eth.contract([
 			{
 				"constant": true,
 				"inputs": [],
@@ -136,10 +140,14 @@ class App extends Component {
 				"type": "fallback"
 			}
 		])
-		this.state.ContractInstance = MyContract.at("0x8cdaf0cd259887258bc13a92c0a6da92698644c0")
+
+		this.setState({
+			ContractInstance: MyContract.at("0x8cdaf0cd259887258bc13a92c0a6da92698644c0")
+		});
 	}
 
 	componentDidMount(){
+		this.setup();
 		this.updateState()
 		this.setupListeners()
 
@@ -147,17 +155,19 @@ class App extends Component {
 	}
   
 	updateState(){
+		if(this.state.ContractInstance == null) return;
+		
 		this.state.ContractInstance.minimumBet((err, result) => {
 			if(result != null){
 				this.setState({
-					minimumBet: parseFloat(this.web3.fromWei(result, 'ether'))
+					minimumBet: parseFloat(web3.fromWei(result, 'ether'))
 				})
 			}
 		})
 		this.state.ContractInstance.totalBet((err, result) => {
 			if(result != null){
 				this.setState({
-					totalBet: parseFloat(this.web3.fromWei(result, 'ether'))
+					totalBet: parseFloat(web3.fromWei(result, 'ether'))
 				})
 			}
 		})
@@ -205,8 +215,8 @@ class App extends Component {
 		} else {
 			this.state.ContractInstance.bet(number, {
 				gas: 300000,
-				from: this.web3.eth.accounts[0],
-				value: this.web3.toWei(bet, 'ether')
+				from: web3.eth.accounts[0],
+				value: web3.toWei(bet, 'ether')
 			}, (err, result) => {
 				cb()
 			})
